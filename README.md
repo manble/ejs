@@ -51,13 +51,20 @@ Also you can set `layout = false` to disable the layout.
 ```
 <html>
   <head>
-    <title>koa ejs</title>
+    <title><%- pageSettings.pageTitle %></title>
   </head>
   <body>
     <h3>koa ejs</h3>
     <%- body %>
   </body>
 </html>
+```
+
+### variables of the page
+Use varibles of the page in the layout.
+```
+<% pageSetting('pageTitle', 'koa ejs')%>
+
 ```
 
 ### Inlcude

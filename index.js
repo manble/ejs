@@ -94,7 +94,9 @@ exports = module.exports = function (app, settings) {
       _with: settings._with,
       compileDebug: settings.debug && settings.compileDebug,
       debug: settings.debug,
-      delimiter: settings.delimiter
+      delimiter : settings.delimiter,
+      pageSettings : options.pageSettings,
+      pageSetting : options.pageSetting
     });
     if (settings.cache) {
       cache[viewPath] = fn;
@@ -107,7 +109,13 @@ exports = module.exports = function (app, settings) {
   app.context.render = async function (view, _context) {
     const ctx = this;
 
-    const context = Object.assign({}, ctx.state, _context);
+    const pageSettings = {};
+    const context = Object.assign({
+        pageSettings,
+        pageSetting: (function (name, value) {
+            typeof this[name] === 'undefined' && (this[name] = value);
+        }).bind(pageSettings)
+    }, ctx.state, _context);
 
     let html = await render(view, context);
 
